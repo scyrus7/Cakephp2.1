@@ -1,0 +1,11 @@
+
+}
+/* GEOLOCATION */
+div#location, div#distance {
+	padding: 5px;
+}
+div#map {
+	width: 700px;
+	height: 350px;
+	border: 2px solid black;
+}
