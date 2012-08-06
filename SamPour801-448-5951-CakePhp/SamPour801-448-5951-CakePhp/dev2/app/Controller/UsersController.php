@@ -1,17 +1,20 @@
 <?php
 class UsersController extends AppController {
 	public $name = 'Users';
-	public $helpers = array('Html', 'Form');
-	public $components = array('Auth', 'Session');
+	public $helpers = array('Html', 'Form','Facebook.Facebook');
+	public $components = array('Auth' , 'Session','Facebook.Connect');
 	
 	function beforeFilter() {
+		$this->set('user', $this->Auth->user());	
+	$this->set('facebook_user', $this->Connect->user());
+		
   //  $this->Auth->user = 'Users';
   //  Security::setHash("md5");
  //   $this->Auth->fields = array('username' => 'username', 'password' => 'password');
   //  $this->Auth->loginAction = array('controller' => 'Users', 'action' => 'login');
  //   $this->Auth->loginRedirect = array('controller' => 'Tasks', 'action' => 'index');
     //sign up  is a page which don't requires to login
-    $this->Auth->allow('register','login','logout');
+    $this->Auth->allow('register','login','logout','view');
   //  $this->Auth->authorize = 'controller';
   //  $this->Auth->logoutRedirect = '/';
 
@@ -19,31 +22,39 @@ class UsersController extends AppController {
     function isAuthorized() {
 
     return true;
-
+   //	return ($this->Auth->user('id'));
 }	
 	
 	public function login() {
-	 if ($this->request->is('post')) {
-	
-		// if the form was submitted
-		if(!empty($this->data)) {
-			// find the user in the database
-			$dbuser = $this->User->findByUsername($this->data['User']['username']);
-			// if found and passwords match
-			if($this->Auth->login()) {
-				// write the username to a session
-				$this->Session->write('User', $dbuser);
-				// save the login time
-				$dbuser['User']['last_login'] = date("Y-m-d H:i:s");
-				$this->User->save($dbuser);
-				// redirect the user
-				$this->Session->setFlash('You have successfully logged in.');
-				$this->redirect('/tasks/index');
-			} else {
-				$this->set('error', 'Either your username or password is incorrect.');
+
+	$this->set('facebook_user', $this->Connect->user());
+		if(!empty($facebook_user))
+		{
+		$this->Session->setFlash('You have successfully logged in.');
+					$this->redirect('/tasks/index');
+		}
+		// else ($this->request->is('post')) {
+		else{
+			// if the form was submitted
+			if(!empty($this->data)) {
+				// find the user in the database
+				$dbuser = $this->User->findByUsername($this->data['User']['username']);
+				// if found and passwords match
+				if($this->Auth->login()) {
+					// write the username to a session
+					$this->Session->write('User', $dbuser);
+					// save the login time
+					$dbuser['User']['last_login'] = date("Y-m-d H:i:s");
+					$this->User->save($dbuser);
+					
+					// redirect the user
+					$this->Session->setFlash('You have successfully logged in.');
+					$this->redirect('/tasks/index');
+				} else {
+					$this->set('error', 'Either your username or password is incorrect.');
+				}
 			}
 		}
-	}
 	}
 	
 	public function register()
@@ -57,8 +68,8 @@ class UsersController extends AppController {
 		//	   $this->data['User']['password'] = Security::hash(Configure::read('Security.salt').($this->data['User']['password'])); 
 		//	    $this->data['User']['password']= md5($this->data['User']['password']);
 
-				$this->User->create();		
-					if ($this->User->save($this->data)) 
+				$this->User->create();	
+			if ($this->User->save($this->data)) 
 					{
 					//		$this->redirect($this->Auth->redirect('/users/login'));		//		
 	//					echo "work";
