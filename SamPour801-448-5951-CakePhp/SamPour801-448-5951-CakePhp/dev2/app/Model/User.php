@@ -45,7 +45,7 @@ class User extends AppModel {
 	//	 $this->data['User']['password'] = Security::hash(Configure::read('Security.salt').($this->data['User']['password'])); 
 //		if ( $this->data['User']['password'] = Security::hash(Configure::read('Security.salt').($this->data['User']['password'])))
 		{
-	
+	 $this->data['User']['password'] = Security::hash(Configure::read('Security.salt').($this->data['User']['password']));
 		return true;
 		}
 		 return false; 

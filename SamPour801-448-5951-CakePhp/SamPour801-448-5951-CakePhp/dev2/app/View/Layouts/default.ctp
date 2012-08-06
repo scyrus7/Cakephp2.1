@@ -19,7 +19,9 @@
 $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework');
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!--<html xmlns="http://www.w3.org/1999/xhtml"> -->
+    <?= $this->Facebook->html(); ?>
+
 <head>
 	<?php echo $this->Html->charset(); ?>
 	<title>
@@ -48,7 +50,10 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
 			<h1><?php echo $this->Html->link('Your Profile', '/users/profile'); ?></h1>
 			<h1><?php echo $this->Html->link('Tasks', '/tasks/index'); ?></h1>
 			<div style="color: white; text-align: right;">
-	<h1>	<?php echo $this-> element('login_menu'); ?> </h1>
+	<h1>	<?php
+	
+	echo $this-> element('login_menu'); 
+	?> </h1>
 		</div>
 		</div>
 		<div id="content">
@@ -65,7 +70,7 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
 				);
 			?>	
 
- <!---  <div id="fb-root"></div>
+  <div id="fb-root"></div>
             <script>(function(d, s, id) {
               var js, fjs = d.getElementsByTagName(s)[0];
               if (d.getElementById(id)) {return;}
@@ -73,11 +78,14 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
               js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
               fjs.parentNode.insertBefore(js, fjs);
             }(document, 'script', 'facebook-jssdk'));</script>
-            <div class="fb-like-box" data-href="http://www.facebook.com/pages/Development-Pioneer/108504595959400" data-width="292" data-height="180" data-colorscheme="light" data-show-faces="true" data-stream="false" data-header="false" data-border-color="#ffffff"></div>
-			-->
+            <div class="fb-like-box" data-href="http://www.facebook.com/FacebookDevelopers" data-width="292" data-height="180" data-colorscheme="light" data-show-faces="true" data-stream="false" data-header="false" data-border-color="#ffffff"></div>
+			
 		</div>
 		   
 	</div>
-	<?php echo $this->element('sql_dump'); ?>
+	    <?= $this->Facebook->init(); ?>
+
+	<?php // echo $this->element('sql_dump');
+	?>
 </body>
 </html>

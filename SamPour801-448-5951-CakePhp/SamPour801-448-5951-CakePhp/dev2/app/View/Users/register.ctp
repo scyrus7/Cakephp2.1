@@ -2,7 +2,7 @@
 
 <div id="form-wrapper">
 		<?php
-	//	echo $this->Session->flash('auth'); 
+		echo $this->Session->flash('auth'); 
 		echo $this->Form->create('User', array('action' => 'register'));
 		?>
 	<div id="form-inner">

@@ -4,11 +4,17 @@
 
 class TasksController extends AppController {
 	var $name = 'Tasks';
-	var $components = array('Session');
+	var $components = array('Session','Facebook.Connect');
 	public $actsAs = array('Uploader.Attachment');
+	public $helpers = array('Html', 'Form','Facebook.Facebook');
 
 	function index() {
-	  if ($this -> Session -> read('Auth.User.id') == '' || $this -> Session -> read('Auth.User.id') == null)
+		if(($this->Connect->user('id')))
+			{
+				$this->Task->recursive = 0;
+		$this->set('tasks', $this->Task->find('all'));
+			}
+	 else if ($this -> Session -> read('Auth.User.id') == '' || $this -> Session -> read('Auth.User.id') == null )
 	  {
 	  $this->redirect(array('controller' => 'users', 'action' => 'login'));
 	  }
